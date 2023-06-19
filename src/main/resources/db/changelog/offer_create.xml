@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+        <changeSet  author="liquibase-docs"  id="offer_create">
+                <sql dbms="postgresql"
+                     endDelimiter="\nGO"
+                     splitStatements="true"
+                     stripComments="true">
+
+                        create table offer
+                        (
+                                id          bigserial  not null,
+                                company_id  bigint  not null,
+                                description text not null,
+                                phone       varchar(30) not null unique,
+                                price       int not null unique,
+                                amount      int not null unique,
+                                updated timestamp not null,
+                                primary key (id),
+                                FOREIGN KEY (company_id) REFERENCES Company (id)
+                        );
+                </sql>
+                <rollback>
+                        <sql dbms="postgresql"
+                             endDelimiter="\nGO"
+                             splitStatements="true"
+                             stripComments="true">
+
+                                drop table offer;
+
+                        </sql>
+                </rollback>
+        </changeSet>
+
+</databaseChangeLog>

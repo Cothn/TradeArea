@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+        <changeSet  author="liquibase-docs"  id="company_create">
+                <sql dbms="postgresql"
+                     endDelimiter="\nGO"
+                     splitStatements="true"
+                     stripComments="true">
+
+                        create table company
+                        (
+                                id         bigserial  not null,
+                                name       varchar(200) not null unique,
+                                unp       varchar(200) not null unique,
+                                email       varchar(200) not null,
+                                description text not null,
+                                created timestamp not null,
+                                primary key (id)
+                        );
+                </sql>
+                <rollback>
+                        <sql dbms="postgresql"
+                             endDelimiter="\nGO"
+                             splitStatements="true"
+                             stripComments="true">
+
+                                drop table company;
+
+                        </sql>
+                </rollback>
+        </changeSet>
+
+</databaseChangeLog>
