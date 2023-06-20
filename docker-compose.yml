@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  tradearea:
+    build:
+      context: .
+      target: production
+    ports:
+      - "8000:8080"
+      - "8080:8080"
+    volumes:
+      - ./:/app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+  db:
+    image: 'postgres:15-alpine'
+    ports:
+      - "5432:5432"
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
