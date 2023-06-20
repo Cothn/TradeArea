@@ -1,4 +1,5 @@
 # TradeArea
+## version 0.0.1 prototype
 Площадка-агрегатор, где компании выставляют свои предложения по продаже чего-либо.
 
 #  Описание предметной области 
@@ -68,3 +69,5 @@ Company-Offer - OneToMany
 Дождаться появления записи, вида: **Started TradeAreaApplication**;
 6. Приложение готово к использованию, по адресу **localhost:8080** или **localhost:8000**;
 Адрес развертывания приложения можно изменить в файле docker-compose.yml.
+
+#Created by Vsevolod Grinchick
