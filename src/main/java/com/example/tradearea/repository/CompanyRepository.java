@@ -1,6 +1,6 @@
-package com.example.tradeArea.repository;
+package com.example.tradearea.repository;
 
-import com.example.tradeArea.entity.Company;
+import com.example.tradearea.entity.Company;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

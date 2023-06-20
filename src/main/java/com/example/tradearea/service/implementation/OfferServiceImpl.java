@@ -1,12 +1,11 @@
-package com.example.tradeArea.service.implementation;
+package com.example.tradearea.service.implementation;
 
 
 
-import com.example.tradeArea.entity.Company;
-import com.example.tradeArea.entity.Offer;
-import com.example.tradeArea.repository.CompanyRepository;
-import com.example.tradeArea.repository.OfferRepository;
-import com.example.tradeArea.service.OfferService;
+import com.example.tradearea.entity.Offer;
+import com.example.tradearea.repository.CompanyRepository;
+import com.example.tradearea.repository.OfferRepository;
+import com.example.tradearea.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,9 +32,7 @@ public class OfferServiceImpl implements OfferService {
         Pageable page;
         if (ascending) {
             page = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).ascending());
-        }
-        else
-        {
+        } else {
             page = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         }
         return offerRepository.findAll(page);

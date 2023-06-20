@@ -1,8 +1,6 @@
-package com.example.tradeArea.repository;
+package com.example.tradearea.repository;
 
-import com.example.tradeArea.entity.Offer;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.example.tradearea.entity.Offer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

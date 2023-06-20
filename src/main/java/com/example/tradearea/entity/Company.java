@@ -1,6 +1,11 @@
-package com.example.tradeArea.entity;
+package com.example.tradearea.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +34,9 @@ public class Company {
     @Column(name = "description",  nullable = false)
     private String description;
 
-    public Company(){}
+    public Company() {
+
+    }
 
     public String getName() {
         return name;
@@ -78,13 +85,13 @@ public class Company {
 
         final Company company = (Company) o;
 
-        if (!this.id.equals(company.id) ) {
+        if (!this.id.equals(company.id)) {
             return false;
         }
-        if (!this.name.equals(company.name) ) {
+        if (!this.name.equals(company.name)) {
             return false;
         }
-        if (!this.unp.equals(company.unp) ) {
+        if (!this.unp.equals(company.unp)) {
             return false;
         }
         return true;
