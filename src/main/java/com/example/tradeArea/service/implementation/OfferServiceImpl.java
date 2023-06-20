@@ -4,6 +4,7 @@ package com.example.tradeArea.service.implementation;
 
 import com.example.tradeArea.entity.Company;
 import com.example.tradeArea.entity.Offer;
+import com.example.tradeArea.repository.CompanyRepository;
 import com.example.tradeArea.repository.OfferRepository;
 import com.example.tradeArea.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 public class OfferServiceImpl implements OfferService {
 
     @Autowired
     private OfferRepository offerRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Override
     @Transactional
@@ -44,11 +50,13 @@ public class OfferServiceImpl implements OfferService {
     @Override
     @Transactional
     public void edit(Offer offer) {
+        offer.setUpdated(LocalDateTime.now());
         offerRepository.save(offer);
     }
 
     @Override
     public void add(Offer offer) {
+        offer.setUpdated(LocalDateTime.now());
         offerRepository.save(offer);
     }
 

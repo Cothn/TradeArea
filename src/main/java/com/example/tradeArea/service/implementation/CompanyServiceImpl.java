@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
@@ -48,6 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void add(Company company) {
+        company.setCreated(LocalDateTime.now());
         companyRepository.save(company);
     }
 
