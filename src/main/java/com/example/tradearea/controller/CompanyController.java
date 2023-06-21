@@ -36,12 +36,12 @@ public class CompanyController {
 
     @GetMapping
     public ResponsePage<Company> read(
-            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "20") int pageSize,
             @RequestParam(required = true, defaultValue = "created") String sortBy,
             @RequestParam(required = true, defaultValue = "false") Boolean ascending) {
 
-        final Page<Company> companies = companyService.getAll(pageNum - 1, pageSize, sortBy, ascending);
+        final Page<Company> companies = companyService.getAll(pageNum, pageSize, sortBy, ascending);
 
         return new ResponsePage<>(companies);
     }
@@ -60,7 +60,7 @@ public class CompanyController {
 
     @DeleteMapping(value = "/{id}")
     public HttpStatus delete(@PathVariable(name = "id") long id) {
-        companyService.delete(companyService.getById(id));
+        companyService.delete(id);
         return HttpStatus.OK;
     }
 }

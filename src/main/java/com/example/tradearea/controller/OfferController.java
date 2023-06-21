@@ -36,12 +36,12 @@ public class OfferController {
 
     @GetMapping
     public ResponsePage<Offer> read(
-            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "20") int pageSize,
             @RequestParam(required = true, defaultValue = "updated") String sortBy,
             @RequestParam(required = true, defaultValue = "false") Boolean ascending) {
 
-        final Page<Offer> offers = offerService.getAll(pageNum - 1, pageSize, sortBy, ascending);
+        final Page<Offer> offers = offerService.getAll(pageNum, pageSize, sortBy, ascending);
 
         return  new ResponsePage<>(offers);
     }
@@ -60,7 +60,7 @@ public class OfferController {
 
     @DeleteMapping(value = "/{id}")
     public HttpStatus delete(@PathVariable(name = "id") long id) {
-        offerService.delete(offerService.getById(id));
+        offerService.delete(id);
         return HttpStatus.OK;
     }
 }

@@ -84,7 +84,7 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Audiobook{" +
+        return "Offer{" +
                 "id=" + id +
                 ", company_id=" + company.getId() +
                 ", phone='" + phone + '\'' +

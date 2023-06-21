@@ -108,7 +108,7 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Audiobook{" +
+        return "Company{" +
                 "id=" + id +
                 ", name=" + name +
                 ", unp='" + unp + '\'' +
