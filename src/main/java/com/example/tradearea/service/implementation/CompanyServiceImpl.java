@@ -42,7 +42,10 @@ public class CompanyServiceImpl implements CompanyService {
                 return company;
             }
             throw new DBException(OperationType.READE_PAGE, page.toString());
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.READE_PAGE, page.toString(), e);
         }
     }
@@ -56,7 +59,10 @@ public class CompanyServiceImpl implements CompanyService {
                 return company.get();
             }
             throw new DBException(OperationType.READE_ONE, "id = "+id);
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.READE_ONE, "id = "+id, e);
         }
     }
@@ -76,7 +82,10 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             company.setCreated(LocalDateTime.now());
             companyRepository.save(company);
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, company.toString(), e);
         }
     }
@@ -86,7 +95,10 @@ public class CompanyServiceImpl implements CompanyService {
     public void delete(Long id) {
         try{
             companyRepository.delete(getById(id));
-        } catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }
     }

@@ -41,7 +41,10 @@ public class OfferServiceImpl implements OfferService {
                 return offer;
             }
             throw new DBException(OperationType.READE_PAGE, page.toString());
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.READE_PAGE, page.toString(), e);
         }
     }
@@ -55,7 +58,10 @@ public class OfferServiceImpl implements OfferService {
                 return offer.get();
             }
             throw new DBException(OperationType.READE_ONE, "id = "+id);
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.READE_ONE, "id = "+id, e);
         }
     }
@@ -66,7 +72,10 @@ public class OfferServiceImpl implements OfferService {
         try{
             offer.setUpdated(LocalDateTime.now());
             offerRepository.save(offer);
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.UPDATE, offer.toString(), e);
         }
     }
@@ -76,7 +85,10 @@ public class OfferServiceImpl implements OfferService {
         try {
             offer.setUpdated(LocalDateTime.now());
             offerRepository.save(offer);
-        }catch (RuntimeException e){
+        }catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, offer.toString(), e);
         }
     }
@@ -86,7 +98,10 @@ public class OfferServiceImpl implements OfferService {
     public void delete(Long id) {
         try{
             offerRepository.delete(getById(id));
-        } catch (RuntimeException e){
+        } catch (DBException e) {
+            throw e;
+        }
+        catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }
     }
