@@ -38,6 +38,15 @@ public class Company {
 
     }
 
+    Company(Long id, String name, String unp, String email, LocalDateTime created, String description){
+        this.id = id;
+        this.name = name;
+        this.unp = unp;
+        this.email = email;
+        this.created = created;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
@@ -124,5 +133,55 @@ public class Company {
 
     public void setUnp(String unp) {
         this.unp = unp;
+    }
+
+    public static class CompanyBuilder {
+        private Long id;
+        private String name;
+        private String unp;
+        private String email;
+        private LocalDateTime created;
+        private String description;
+
+        CompanyBuilder() {
+        }
+
+
+        public CompanyBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public CompanyBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CompanyBuilder unp(String unp) {
+            this.unp = unp;
+            return this;
+        }
+
+        public CompanyBuilder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public CompanyBuilder created(LocalDateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        public CompanyBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Company build() {
+            return new Company(id, name, unp, email, created, description);
+        }
+    }
+    public static CompanyBuilder builder() {
+        return new CompanyBuilder();
     }
 }
