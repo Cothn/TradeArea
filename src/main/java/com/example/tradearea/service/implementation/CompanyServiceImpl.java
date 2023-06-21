@@ -82,10 +82,7 @@ public class CompanyServiceImpl implements CompanyService {
         try {
             company.setCreated(LocalDateTime.now());
             companyRepository.save(company);
-        }catch (DBException e) {
-            throw e;
-        }
-        catch (RuntimeException e){
+        }catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, company.toString(), e);
         }
     }
@@ -95,10 +92,7 @@ public class CompanyServiceImpl implements CompanyService {
     public void delete(Long id) {
         try{
             companyRepository.delete(getById(id));
-        }catch (DBException e) {
-            throw e;
-        }
-        catch (RuntimeException e){
+        }catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }
     }

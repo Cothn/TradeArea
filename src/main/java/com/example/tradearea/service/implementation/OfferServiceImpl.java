@@ -72,10 +72,7 @@ public class OfferServiceImpl implements OfferService {
         try{
             offer.setUpdated(LocalDateTime.now());
             offerRepository.save(offer);
-        }catch (DBException e) {
-            throw e;
-        }
-        catch (RuntimeException e){
+        }catch (RuntimeException e){
             throw new DBException(OperationType.UPDATE, offer.toString(), e);
         }
     }
@@ -85,10 +82,7 @@ public class OfferServiceImpl implements OfferService {
         try {
             offer.setUpdated(LocalDateTime.now());
             offerRepository.save(offer);
-        }catch (DBException e) {
-            throw e;
-        }
-        catch (RuntimeException e){
+        }catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, offer.toString(), e);
         }
     }
@@ -98,10 +92,7 @@ public class OfferServiceImpl implements OfferService {
     public void delete(Long id) {
         try{
             offerRepository.delete(getById(id));
-        } catch (DBException e) {
-            throw e;
-        }
-        catch (RuntimeException e){
+        }catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }
     }
