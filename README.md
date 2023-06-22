@@ -1,5 +1,5 @@
 # TradeArea
-## version 0.1.3 extended
+## version 0.1.4 extended
 Площадка-агрегатор, где компании выставляют свои предложения по продаже чего-либо.
 
 ## differences from 0.0.1 prototype version
