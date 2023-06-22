@@ -6,15 +6,7 @@ import com.example.tradearea.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -29,12 +21,13 @@ public class OfferController {
     }
 
     @PostMapping
-    public HttpStatus create(@RequestBody Offer offer) {
-        offerService.add(offer);
-        return HttpStatus.CREATED;
+    @ResponseStatus(HttpStatus.CREATED)
+    public Long create(@RequestBody Offer offer) {
+        return offerService.add(offer);
     }
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public ResponsePage<Offer> read(
             @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "20") int pageSize,
@@ -47,20 +40,21 @@ public class OfferController {
     }
 
     @GetMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Offer read(@PathVariable(name = "id") long id) {
         final Offer offer = offerService.getById(id);
         return offer;
     }
 
     @PutMapping
-    public HttpStatus update(@RequestBody Offer offer) {
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@RequestBody Offer offer) {
         offerService.edit(offer);
-        return HttpStatus.OK;
     }
 
     @DeleteMapping(value = "/{id}")
-    public HttpStatus delete(@PathVariable(name = "id") long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable(name = "id") long id) {
         offerService.delete(id);
-        return HttpStatus.OK;
     }
 }
