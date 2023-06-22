@@ -35,16 +35,15 @@ public class OfferServiceImpl implements OfferService {
         } else {
             page = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         }
-        try{
+        try {
             Page<Offer> offer = offerRepository.findAll(page);
-            if (!offer.getContent().isEmpty()){
+            if (!offer.getContent().isEmpty()) {
                 return offer;
             }
             throw new DBException(OperationType.READE_PAGE, page.toString());
-        }catch (DBException e) {
+        } catch (DBException e) {
             throw e;
-        }
-        catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new DBException(OperationType.READE_PAGE, page.toString(), e);
         }
     }
@@ -54,28 +53,28 @@ public class OfferServiceImpl implements OfferService {
     public Offer getById(Long id) {
         try {
             Optional<Offer> offer = offerRepository.findById(id);
-            if (offer.isPresent()){
+            if (offer.isPresent()) {
                 return offer.get();
             }
-            throw new DBException(OperationType.READE_ONE, "id = "+id);
-        }catch (DBException e) {
+            throw new DBException(OperationType.READE_ONE, "id = " + id);
+        } catch (DBException e) {
             throw e;
-        }
-        catch (RuntimeException e){
-            throw new DBException(OperationType.READE_ONE, "id = "+id, e);
+        } catch (RuntimeException e) {
+            throw new DBException(OperationType.READE_ONE, "id = " + id, e);
         }
     }
 
     @Override
     @Transactional
     public void edit(Offer offer) {
-        try{
+        try {
             offer.setUpdated(LocalDateTime.now());
-            if (this.getById(offer.getId()) != null)
+            if (this.getById(offer.getId()) != null) {
                 offerRepository.save(offer);
-        }catch (DBException e) {
+            }
+        } catch (DBException e) {
             throw e;
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new DBException(OperationType.UPDATE, offer.toString(), e);
         }
     }
@@ -84,13 +83,14 @@ public class OfferServiceImpl implements OfferService {
     @Transactional
     public long add(Offer offer) {
         try {
-            if (offer.getId() != null)
+            if (offer.getId() != null) {
                 throw new DBException(OperationType.CREATE, offer.toString());
+            }
             offer.setUpdated(LocalDateTime.now());
             return offerRepository.save(offer).getId();
-        }catch (DBException e) {
+        } catch (DBException e) {
             throw e;
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             throw new DBException(OperationType.CREATE, offer.toString(), e);
         }
     }
@@ -98,12 +98,12 @@ public class OfferServiceImpl implements OfferService {
     @Override
     @Transactional
     public void delete(Long id) {
-        try{
+        try {
             offerRepository.delete(getById(id));
-        }catch (DBException e) {
+        } catch (DBException e) {
             throw e;
-        }catch (RuntimeException e){
-            throw new DBException(OperationType.DELETE, "id = "+id, e);
+        } catch (RuntimeException e) {
+            throw new DBException(OperationType.DELETE, "id = " + id, e);
         }
     }
 }

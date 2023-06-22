@@ -3,13 +3,10 @@ package com.example.tradearea.controller;
 import com.example.tradearea.entity.Company;
 import com.example.tradearea.repository.CompanyRepository;
 import com.example.tradearea.service.CompanyService;
-import com.example.tradearea.service.exceptions.DBException;
-import com.example.tradearea.service.exceptions.OperationType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -18,13 +15,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 
 
 @Testcontainers
@@ -71,10 +62,10 @@ public class CompanyControllerTests {
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -90,19 +81,19 @@ public class CompanyControllerTests {
     void add_addAnExistCompany_HttpStatusBadRequest() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long oldCount = companyRepository.count();
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -119,10 +110,10 @@ public class CompanyControllerTests {
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .name(null)
-                .unp(null)
-                .email(null)
-                .description(null)
+                .setName(null)
+                .setUnp(null)
+                .setEmail(null)
+                .setDescription(null)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -136,19 +127,19 @@ public class CompanyControllerTests {
     void add_addCompanyWithExistId_HttpStatusBadRequest() {
         //Given
         long id1 = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .id(id1)
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany@mail.com1")
-                .description("newCompanyDescription1")
+                .setId(id1)
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany@mail.com1")
+                .setDescription("newCompanyDescription1")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -162,22 +153,22 @@ public class CompanyControllerTests {
     void update_updateAllChangeableAttributes_allCompanyAttributesChangedAndHttpStatusOK() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         Company company = companyService.getById(id);
 
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .id(id)
-                .name("newCompanyUpdate")
-                .unp("000000001")
-                .email("newCompanyUpdate@mail.com")
-                .created(company.getCreated())
-                .description("newCompanyDescription Update")
+                .setId(id)
+                .setName("newCompanyUpdate")
+                .setUnp("000000001")
+                .setEmail("newCompanyUpdate@mail.com")
+                .setCreated(company.getCreated())
+                .setDescription("newCompanyDescription Update")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -196,10 +187,10 @@ public class CompanyControllerTests {
     void update_updateNotExistCompany_companiesListNotChangedAndHttpStatusNotFound() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         Company company = companyService.getById(id);
         companyService.delete(id);
@@ -207,12 +198,12 @@ public class CompanyControllerTests {
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .id(id)
-                .name("newCompanyUpdate")
-                .unp("000000001")
-                .email("newCompanyUpdate@mail.com")
-                .created(company.getCreated())
-                .description("newCompanyDescription Update")
+                .setId(id)
+                .setName("newCompanyUpdate")
+                .setUnp("000000001")
+                .setEmail("newCompanyUpdate@mail.com")
+                .setCreated(company.getCreated())
+                .setDescription("newCompanyDescription Update")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -227,28 +218,28 @@ public class CompanyControllerTests {
     void update_CompanyWithAlreadyExistUniqueParams_companiesListNotChangedAndHttpStatusBadRequest() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         Iterable<Company> companies = companyRepository.findAll();
         Company company = companyService.getById(id);
 
         //When
         HttpEntity<Company> request = new HttpEntity<>(Company.builder()
-                .id(id)
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .created(company.getCreated())
-                .description("newCompanyDescription1")
+                .setId(id)
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setCreated(company.getCreated())
+                .setDescription("newCompanyDescription1")
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -262,10 +253,10 @@ public class CompanyControllerTests {
     void delete_deleteExistCompany_companyDeleted() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long oldCount = companyRepository.count();
 
@@ -287,10 +278,10 @@ public class CompanyControllerTests {
     void delete_deleteNotExistCompany_countNotChangedAndHttpStatusNotFound() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(id);
         long oldCount = companyRepository.count();
@@ -312,10 +303,10 @@ public class CompanyControllerTests {
     void read_readCompany_companyFound() {
         //Given
         Company company = Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build();
         long id = companyService.add(company);
 
@@ -337,10 +328,10 @@ public class CompanyControllerTests {
     void read_readNotExistedCompany_HttpStatusNotFound() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(id);
 
@@ -360,22 +351,22 @@ public class CompanyControllerTests {
     void read_readPageOfCompanies_HttpStatusOk() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany2")
-                .unp("000000002")
-                .email("newCompany2@mail.com")
-                .description("newCompanyDescription2")
+                .setName("newCompany2")
+                .setUnp("000000002")
+                .setEmail("newCompany2@mail.com")
+                .setDescription("newCompanyDescription2")
                 .build());
 
 
@@ -396,22 +387,22 @@ public class CompanyControllerTests {
     void read_readWithPageMoreThanRealPageExist_HttpStatusNotFound() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany2")
-                .unp("000000002")
-                .email("newCompany2@mail.com")
-                .description("newCompanyDescription2")
+                .setName("newCompany2")
+                .setUnp("000000002")
+                .setEmail("newCompany2@mail.com")
+                .setDescription("newCompanyDescription2")
                 .build());
 
         //When

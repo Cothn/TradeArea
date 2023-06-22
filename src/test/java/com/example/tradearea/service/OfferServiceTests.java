@@ -57,19 +57,19 @@ public class OfferServiceTests {
         //Given
         long oldCount = offerRepository.count();
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
         //When
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //Then
@@ -82,28 +82,28 @@ public class OfferServiceTests {
     void add_addAnExistOffer_notAddedAndThrowDBException () {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         long oldCount = offerRepository.count();
 
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 offerService.add(Offer.builder()
-                        .company(Company.builder().id(company_id).build())
-                        .description("newOfferDescription")
-                        .phone("+000-00-000-00-00 000")
-                        .price(1)
-                        .amount(1)
+                        .setCompany(Company.builder().setId(company_id).build())
+                        .setDescription("newOfferDescription")
+                        .setPhone("+000-00-000-00-00 000")
+                        .setPrice(1)
+                        .setAmount(1)
                         .build()));
 
         //Then
@@ -121,11 +121,11 @@ public class OfferServiceTests {
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 offerService.add(Offer.builder()
-                        .company(null)
-                        .description(null)
-                        .phone(null)
-                        .price(null)
-                        .amount(null)
+                        .setCompany(null)
+                        .setDescription(null)
+                        .setPhone(null)
+                        .setPrice(null)
+                        .setAmount(null)
                         .build()));
 
         //Then
@@ -138,28 +138,28 @@ public class OfferServiceTests {
     void add_addOfferWithExistId_ThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long id1 = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 offerService.add(Offer.builder()
-                        .id(id1)
-                        .company(Company.builder().id(company_id).build())
-                        .description("newOfferDescription")
-                        .phone("+000-00-000-00-00 001")
-                        .price(1)
-                        .amount(1)
+                        .setId(id1)
+                        .setCompany(Company.builder().setId(company_id).build())
+                        .setDescription("newOfferDescription")
+                        .setPhone("+000-00-000-00-00 001")
+                        .setPrice(1)
+                        .setAmount(1)
                         .build()));
 
 
@@ -171,10 +171,10 @@ public class OfferServiceTests {
     void add_addOfferWithNotExistCompanyId_ThrowException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(company_id);
         Iterable<Offer> offers = offerRepository.findAll();
@@ -182,11 +182,11 @@ public class OfferServiceTests {
         //When
         RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () ->
                 offerService.add(Offer.builder()
-                        .company(Company.builder().id(company_id).build())
-                        .description("newOfferDescription")
-                        .phone("+000-00-000-00-00 000")
-                        .price(1)
-                        .amount(1)
+                        .setCompany(Company.builder().setId(company_id).build())
+                        .setDescription("newOfferDescription")
+                        .setPhone("+000-00-000-00-00 000")
+                        .setPrice(1)
+                        .setAmount(1)
                         .build()));
 
         //Then
@@ -198,35 +198,35 @@ public class OfferServiceTests {
     void update_updateAllChangeableAttributes_allOfferAttributesChanged() {
         //Given
         long company_id1 = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long company_id2 = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id1).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id1).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         Offer offer = offerService.getById(id);
 
 
         //When
         offerService.edit(Offer.builder()
-                .id(id)
-                .company(Company.builder().id(company_id2).build())
-                .description("newOfferDescription Update")
-                .phone("+000-00-000-00-00 111")
-                .price(100)
-                .amount(10000)
+                .setId(id)
+                .setCompany(Company.builder().setId(company_id2).build())
+                .setDescription("newOfferDescription Update")
+                .setPhone("+000-00-000-00-00 111")
+                .setPrice(100)
+                .setAmount(10000)
                 .build());
         Offer offerUpdated = offerService.getById(id);
 
@@ -244,36 +244,36 @@ public class OfferServiceTests {
     void update_OfferWithAlreadyExistUniqueParams_offersListNotChangedAndThrowException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         Iterable<Offer> offers = offerRepository.findAll();
 
         //When
         RuntimeException thrown = Assertions.assertThrows(RuntimeException.class, () ->
                 offerService.edit(Offer.builder()
-                        .id(id)
-                        .company(Company.builder().id(company_id).build())
-                        .description("newOfferDescription Update")
-                        .phone("+000-00-000-00-00 001")
-                        .price(100)
-                        .amount(10000)
+                        .setId(id)
+                        .setCompany(Company.builder().setId(company_id).build())
+                        .setDescription("newOfferDescription Update")
+                        .setPhone("+000-00-000-00-00 001")
+                        .setPrice(100)
+                        .setAmount(10000)
                         .build()));
 
         //Then
@@ -286,17 +286,17 @@ public class OfferServiceTests {
     void update_updateNotExistOffer_offersListNotChangedAndThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
         Iterable<Offer> offers = offerRepository.findAll();
@@ -304,12 +304,12 @@ public class OfferServiceTests {
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 offerService.edit(Offer.builder()
-                        .id(id)
-                        .company(Company.builder().id(company_id).build())
-                        .description("newOfferDescription Update")
-                        .phone("+000-00-000-00-00 111")
-                        .price(100)
-                        .amount(10000)
+                        .setId(id)
+                        .setCompany(Company.builder().setId(company_id).build())
+                        .setDescription("newOfferDescription Update")
+                        .setPhone("+000-00-000-00-00 111")
+                        .setPrice(100)
+                        .setAmount(10000)
                         .build()));
 
         //Then
@@ -322,23 +322,23 @@ public class OfferServiceTests {
     void update_OfferWithNotExistCompanyId_offersListNotChangedAndThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long company_id2 = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         companyService.delete(company_id2);
         Iterable<Offer> offers = offerRepository.findAll();
@@ -346,12 +346,12 @@ public class OfferServiceTests {
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 offerService.edit(Offer.builder()
-                        .id(id)
-                        .company(Company.builder().id(company_id2).build())
-                        .description("newOfferDescription Update")
-                        .phone("+000-00-000-00-00 111")
-                        .price(100)
-                        .amount(10000)
+                        .setId(id)
+                        .setCompany(Company.builder().setId(company_id2).build())
+                        .setDescription("newOfferDescription Update")
+                        .setPhone("+000-00-000-00-00 111")
+                        .setPrice(100)
+                        .setAmount(10000)
                         .build()));
 
         //Then
@@ -364,17 +364,17 @@ public class OfferServiceTests {
     void delete_deleteExistOffer_offerDeleted() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         long oldCount = offerRepository.count();
 
@@ -390,17 +390,17 @@ public class OfferServiceTests {
     void delete_deleteNotExistOffer_countNotChangedAndThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
         long oldCount = offerRepository.count();
@@ -420,17 +420,17 @@ public class OfferServiceTests {
     void getById_getOffer_offerFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When
@@ -445,17 +445,17 @@ public class OfferServiceTests {
     void getById_getNotExistedOffer_ThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
 
@@ -471,31 +471,31 @@ public class OfferServiceTests {
     void getAll_getPageOfOffers_foundNotEmptyPageOfOffers() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription1")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription1")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription2")
-                .phone("+000-00-000-00-00 002")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription2")
+                .setPhone("+000-00-000-00-00 002")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
 
@@ -513,31 +513,31 @@ public class OfferServiceTests {
     void getAll_getWithPageSizeMoreThanOffersCont_listSizeEqualsOffersCount() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription1")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription1")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription2")
-                .phone("+000-00-000-00-00 002")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription2")
+                .setPhone("+000-00-000-00-00 002")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When
@@ -553,31 +553,31 @@ public class OfferServiceTests {
     void getAll_getWithPageMoreThanRealPageExist_ThrowDBException() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription1")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription1")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription2")
-                .phone("+000-00-000-00-00 002")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription2")
+                .setPhone("+000-00-000-00-00 002")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When

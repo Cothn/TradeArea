@@ -2,7 +2,6 @@ package com.example.tradearea.service;
 
 import com.example.tradearea.entity.Company;
 import com.example.tradearea.repository.CompanyRepository;
-import com.example.tradearea.service.CompanyService;
 import com.example.tradearea.service.exceptions.DBException;
 import com.example.tradearea.service.exceptions.OperationType;
 import org.junit.jupiter.api.*;
@@ -12,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -55,10 +52,10 @@ public class CompanyServiceTests {
 
         //When
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
 
@@ -72,20 +69,20 @@ public class CompanyServiceTests {
     void add_addAnExistCompany_notAddedAndThrowDBException () {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long oldCount = companyRepository.count();
 
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 companyService.add(Company.builder()
-                        .name("newCompany")
-                        .unp("000000000")
-                        .email("newCompany@mail.com")
-                        .description("newCompanyDescription")
+                        .setName("newCompany")
+                        .setUnp("000000000")
+                        .setEmail("newCompany@mail.com")
+                        .setDescription("newCompanyDescription")
                         .build()));
 
         //Then
@@ -103,10 +100,10 @@ public class CompanyServiceTests {
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 companyService.add(Company.builder()
-                        .name(null)
-                        .unp(null)
-                        .email(null)
-                        .description(null)
+                        .setName(null)
+                        .setUnp(null)
+                        .setEmail(null)
+                        .setDescription(null)
                         .build()));
 
         //Then
@@ -119,20 +116,20 @@ public class CompanyServiceTests {
     void add_addCompanyWithExistId_ThrowDBException() {
         //Given
         long id1 = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 companyService.add(Company.builder()
-                        .id(id1)
-                        .name("newCompany1")
-                        .unp("000000001")
-                        .email("newCompany@mail.com1")
-                        .description("newCompanyDescription1")
+                        .setId(id1)
+                        .setName("newCompany1")
+                        .setUnp("000000001")
+                        .setEmail("newCompany@mail.com1")
+                        .setDescription("newCompanyDescription1")
                         .build()));
 
 
@@ -144,22 +141,22 @@ public class CompanyServiceTests {
     void update_updateAllChangeableAttributes_allCompanyAttributesChanged() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         Company company = companyService.getById(id);
 
 
         //When
         companyService.edit(Company.builder()
-                .id(id)
-                .name("newCompanyUpdate")
-                .unp("000000001")
-                .email("newCompanyUpdate@mail.com")
-                .created(company.getCreated())
-                .description("newCompanyDescription Update")
+                .setId(id)
+                .setName("newCompanyUpdate")
+                .setUnp("000000001")
+                .setEmail("newCompanyUpdate@mail.com")
+                .setCreated(company.getCreated())
+                .setDescription("newCompanyDescription Update")
                 .build());
         Company companyUpdated = companyService.getById(id);
 
@@ -175,10 +172,10 @@ public class CompanyServiceTests {
     void update_updateNotExistCompany_companiesListNotChangedAndThrowDBException() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         Company company = companyService.getById(id);
         companyService.delete(id);
@@ -187,12 +184,12 @@ public class CompanyServiceTests {
         //When
         DBException thrown = Assertions.assertThrows(DBException.class, () ->
                 companyService.edit(Company.builder()
-                        .id(id)
-                        .name("newCompanyUpdate")
-                        .unp("000000001")
-                        .email("newCompanyUpdate@mail.com")
-                        .created(company.getCreated())
-                        .description("newCompanyDescription Update")
+                        .setId(id)
+                        .setName("newCompanyUpdate")
+                        .setUnp("000000001")
+                        .setEmail("newCompanyUpdate@mail.com")
+                        .setCreated(company.getCreated())
+                        .setDescription("newCompanyDescription Update")
                         .build()));
 
         //Then
@@ -205,16 +202,16 @@ public class CompanyServiceTests {
     void update_CompanyWithAlreadyExistUniqueParams_companiesListNotChangedAndThrowException() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         Iterable<Company> companies = companyRepository.findAll();
         Company company = companyService.getById(id);
@@ -222,12 +219,12 @@ public class CompanyServiceTests {
         //When
         Exception thrown = Assertions.assertThrows(RuntimeException.class, () ->
                 companyService.edit(Company.builder()
-                        .id(id)
-                        .name("newCompany1")
-                        .unp("000000001")
-                        .email("newCompany1@mail.com")
-                        .created(company.getCreated())
-                        .description("newCompanyDescription1")
+                        .setId(id)
+                        .setName("newCompany1")
+                        .setUnp("000000001")
+                        .setEmail("newCompany1@mail.com")
+                        .setCreated(company.getCreated())
+                        .setDescription("newCompanyDescription1")
                         .build()));
 
         //Then
@@ -239,10 +236,10 @@ public class CompanyServiceTests {
     void delete_deleteExistCompany_companyDeleted() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long oldCount = companyRepository.count();
 
@@ -258,10 +255,10 @@ public class CompanyServiceTests {
     void delete_deleteNotExistCompany_countNotChangedAndThrowDBException() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(id);
         long oldCount = companyRepository.count();
@@ -281,10 +278,10 @@ public class CompanyServiceTests {
     void getById_getCompany_companyFound() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
         //When
@@ -299,10 +296,10 @@ public class CompanyServiceTests {
     void getById_getNotExistedCompany_ThrowDBException() {
         //Given
         long id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(id);
 
@@ -318,22 +315,22 @@ public class CompanyServiceTests {
     void getAll_getPageOfCompanies_foundNotEmptyPageOfCompanies() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany2")
-                .unp("000000002")
-                .email("newCompany2@mail.com")
-                .description("newCompanyDescription2")
+                .setName("newCompany2")
+                .setUnp("000000002")
+                .setEmail("newCompany2@mail.com")
+                .setDescription("newCompanyDescription2")
                 .build());
 
 
@@ -351,22 +348,22 @@ public class CompanyServiceTests {
     void getAll_getWithPageSizeMoreThanCompaniesCont_listSizeEqualsCompaniesCount() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany2")
-                .unp("000000002")
-                .email("newCompany2@mail.com")
-                .description("newCompanyDescription2")
+                .setName("newCompany2")
+                .setUnp("000000002")
+                .setEmail("newCompany2@mail.com")
+                .setDescription("newCompanyDescription2")
                 .build());
 
         //When
@@ -382,22 +379,22 @@ public class CompanyServiceTests {
     void getAll_getWithPageMoreThanRealPageExist_ThrowDBException() {
         //Given
         companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         companyService.add(Company.builder()
-                .name("newCompany2")
-                .unp("000000002")
-                .email("newCompany2@mail.com")
-                .description("newCompanyDescription2")
+                .setName("newCompany2")
+                .setUnp("000000002")
+                .setEmail("newCompany2@mail.com")
+                .setDescription("newCompanyDescription2")
                 .build());
 
         //When

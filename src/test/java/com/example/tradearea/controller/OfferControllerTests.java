@@ -6,13 +6,10 @@ import com.example.tradearea.repository.CompanyRepository;
 import com.example.tradearea.repository.OfferRepository;
 import com.example.tradearea.service.CompanyService;
 import com.example.tradearea.service.OfferService;
-import com.example.tradearea.service.exceptions.DBException;
-import com.example.tradearea.service.exceptions.OperationType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -70,19 +67,19 @@ public class OfferControllerTests {
         //Given
         long oldCount = offerRepository.count();
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -98,27 +95,27 @@ public class OfferControllerTests {
     void add_addAnExistOffer_HttpStatusBadRequest() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         long oldCount = offerRepository.count();
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -135,11 +132,11 @@ public class OfferControllerTests {
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .company(null)
-                .description(null)
-                .phone(null)
-                .price(null)
-                .amount(null)
+                .setCompany(null)
+                .setDescription(null)
+                .setPhone(null)
+                .setPrice(null)
+                .setAmount(null)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -153,27 +150,27 @@ public class OfferControllerTests {
     void add_addOfferWithExistId_HttpStatusBadRequest() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long id1 = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .id(id1)
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setId(id1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -186,20 +183,20 @@ public class OfferControllerTests {
     void add_addOfferWithNotExistCompanyId_HttpStatusBadRequest() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         companyService.delete(company_id);
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.POST, request, String.class);
@@ -212,35 +209,35 @@ public class OfferControllerTests {
     void update_updateAllChangeableAttributes_allOfferAttributesChangedAndHttpStatusOK() {
         //Given
         long company_id1 = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long company_id2 = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id1).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id1).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         Offer offer = offerService.getById(id);
 
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .id(id)
-                .company(Company.builder().id(company_id2).build())
-                .description("newOfferDescription Update")
-                .phone("+000-00-000-00-00 111")
-                .price(100)
-                .amount(10000)
+                .setId(id)
+                .setCompany(Company.builder().setId(company_id2).build())
+                .setDescription("newOfferDescription Update")
+                .setPhone("+000-00-000-00-00 111")
+                .setPrice(100)
+                .setAmount(10000)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -262,29 +259,29 @@ public class OfferControllerTests {
     void update_updateNotExistOffer_offersListNotChangedAndHttpStatusNotFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
         Iterable<Offer> offers = offerRepository.findAll();
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .id(id)
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription Update")
-                .phone("+000-00-000-00-00 111")
-                .price(100)
-                .amount(10000)
+                .setId(id)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription Update")
+                .setPhone("+000-00-000-00-00 111")
+                .setPrice(100)
+                .setAmount(10000)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -298,35 +295,35 @@ public class OfferControllerTests {
     void update_OfferWithAlreadyExistUniqueParams_offersListNotChangedAndHttpStatusBadRequest() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         Iterable<Offer> offers = offerRepository.findAll();
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .id(id)
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription Update")
-                .phone("+000-00-000-00-00 001")
-                .price(100)
-                .amount(10000)
+                .setId(id)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription Update")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(100)
+                .setAmount(10000)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -340,35 +337,35 @@ public class OfferControllerTests {
     void update_OfferWithNotExistCompanyId_offersListNotChangedAndHttpStatusBadRequest() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany")
-                .unp("000000000")
-                .email("newCompany@mail.com")
-                .description("newCompanyDescription")
+                .setName("newCompany")
+                .setUnp("000000000")
+                .setEmail("newCompany@mail.com")
+                .setDescription("newCompanyDescription")
                 .build());
         long company_id2 = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         companyService.delete(company_id2);
         Iterable<Offer> offers = offerRepository.findAll();
 
         //When
         HttpEntity<Offer> request = new HttpEntity<>(Offer.builder()
-                .id(id)
-                .company(Company.builder().id(company_id2).build())
-                .description("newOfferDescription Update")
-                .phone("+000-00-000-00-00 111")
-                .price(100)
-                .amount(10000)
+                .setId(id)
+                .setCompany(Company.builder().setId(company_id2).build())
+                .setDescription("newOfferDescription Update")
+                .setPhone("+000-00-000-00-00 111")
+                .setPrice(100)
+                .setAmount(10000)
                 .build());
         ResponseEntity<String> response = restTemplate
                 .exchange(REQUEST_URL, HttpMethod.PUT, request, String.class);
@@ -382,17 +379,17 @@ public class OfferControllerTests {
     void delete_deleteExistOffer_offerDeleted() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         long oldCount = offerRepository.count();
 
@@ -414,17 +411,17 @@ public class OfferControllerTests {
     void delete_deleteNotExistOffer_countNotChangedAndHttpStatusNotFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
         long oldCount = offerRepository.count();
@@ -446,17 +443,17 @@ public class OfferControllerTests {
     void read_readOffer_offerFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         Offer offer = Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build();
         long id = offerService.add(offer);
 
@@ -477,17 +474,17 @@ public class OfferControllerTests {
     void read_readNotExistedOffer_HttpStatusNotFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         long id = offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.delete(id);
 
@@ -507,31 +504,31 @@ public class OfferControllerTests {
     void read_readPageOfOffers_HttpStatusOk() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription1")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription1")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription2")
-                .phone("+000-00-000-00-00 002")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription2")
+                .setPhone("+000-00-000-00-00 002")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When
@@ -551,31 +548,31 @@ public class OfferControllerTests {
     void read_readWithPageMoreThanRealPageExist_HttpStatusNotFound() {
         //Given
         long company_id = companyService.add(Company.builder()
-                .name("newCompany1")
-                .unp("000000001")
-                .email("newCompany1@mail.com")
-                .description("newCompanyDescription1")
+                .setName("newCompany1")
+                .setUnp("000000001")
+                .setEmail("newCompany1@mail.com")
+                .setDescription("newCompanyDescription1")
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription")
-                .phone("+000-00-000-00-00 000")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription")
+                .setPhone("+000-00-000-00-00 000")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription1")
-                .phone("+000-00-000-00-00 001")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription1")
+                .setPhone("+000-00-000-00-00 001")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
         offerService.add(Offer.builder()
-                .company(Company.builder().id(company_id).build())
-                .description("newOfferDescription2")
-                .phone("+000-00-000-00-00 002")
-                .price(1)
-                .amount(1)
+                .setCompany(Company.builder().setId(company_id).build())
+                .setDescription("newOfferDescription2")
+                .setPhone("+000-00-000-00-00 002")
+                .setPrice(1)
+                .setAmount(1)
                 .build());
 
         //When

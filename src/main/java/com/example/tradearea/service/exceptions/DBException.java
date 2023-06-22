@@ -21,10 +21,10 @@ public class DBException extends RuntimeException {
         this.requestParams = requestParams;
     }
 
-    public OperationType getOperationType(){
+    public OperationType getOperationType() {
         return operationType;
     }
-    public String getRequestParams(){
+    public String getRequestParams() {
         return requestParams;
     }
 

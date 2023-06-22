@@ -38,7 +38,7 @@ public class Company {
 
     }
 
-    Company(Long id, String name, String unp, String email, LocalDateTime created, String description){
+    Company(Long id, String name, String unp, String email, LocalDateTime created, String description) {
         this.id = id;
         this.name = name;
         this.unp = unp;
@@ -117,14 +117,14 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", unp='" + unp + '\'' +
-                ", email='" + email + '\'' +
-                ", created='" + created + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Company{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", unp='" + unp + '\''
+                + ", email='" + email + '\''
+                + ", created='" + created + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 
     public String getUnp() {
@@ -147,32 +147,32 @@ public class Company {
         }
 
 
-        public CompanyBuilder id(Long id) {
+        public CompanyBuilder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public CompanyBuilder name(String name) {
+        public CompanyBuilder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public CompanyBuilder unp(String unp) {
+        public CompanyBuilder setUnp(String unp) {
             this.unp = unp;
             return this;
         }
 
-        public CompanyBuilder email(String email) {
+        public CompanyBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public CompanyBuilder created(LocalDateTime created) {
+        public CompanyBuilder setCreated(LocalDateTime created) {
             this.created = created;
             return this;
         }
 
-        public CompanyBuilder description(String description) {
+        public CompanyBuilder setDescription(String description) {
             this.description = description;
             return this;
         }

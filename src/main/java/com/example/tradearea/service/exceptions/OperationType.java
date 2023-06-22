@@ -8,7 +8,7 @@ public enum OperationType {
     DELETE;
 
     @Override
-    public String toString(){
-        return super.toString().replace('_',' ');
+    public String toString() {
+        return super.toString().replace('_', ' ');
     }
 }

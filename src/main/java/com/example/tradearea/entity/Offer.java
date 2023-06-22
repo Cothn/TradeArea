@@ -94,15 +94,15 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Offer{" +
-                "id=" + id +
-                ", company=" + company +
-                ", phone='" + phone + '\'' +
-                ", price='" + price + '\'' +
-                ", amount='" + amount + '\'' +
-                ", updated='" + updated + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Offer{"
+                + "id=" + id
+                + ", company=" + company
+                + ", phone='" + phone + '\''
+                + ", price='" + price + '\''
+                + ", amount='" + amount + '\''
+                + ", updated='" + updated + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 
 
@@ -161,37 +161,37 @@ public class Offer {
         }
 
 
-        public Offer.OfferBuilder id(Long id) {
+        public OfferBuilder setId(Long id) {
             this.id = id;
             return this;
         }
 
-        public Offer.OfferBuilder company(Company company) {
+        public OfferBuilder setCompany(Company company) {
             this.company = company;
             return this;
         }
 
-        public Offer.OfferBuilder phone(String phone) {
+        public OfferBuilder setPhone(String phone) {
             this.phone = phone;
             return this;
         }
 
-        public Offer.OfferBuilder price(Integer price) {
+        public OfferBuilder setPrice(Integer price) {
             this.price = price;
             return this;
         }
 
-        public Offer.OfferBuilder amount(Integer amount) {
+        public OfferBuilder setAmount(Integer amount) {
             this.amount = amount;
             return this;
         }
 
-        public Offer.OfferBuilder updated(LocalDateTime updated) {
+        public OfferBuilder setUpdated(LocalDateTime updated) {
             this.updated = updated;
             return this;
         }
 
-        public Offer.OfferBuilder description(String description) {
+        public OfferBuilder setDescription(String description) {
             this.description = description;
             return this;
         }
