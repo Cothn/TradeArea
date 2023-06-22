@@ -21,8 +21,8 @@ Company-Offer - OneToMany
 + created, (date+time) nonNull - дата и время добаление в систему
 
 ###  Offer
-+ id (int64), nonNull - уникальный идентификатор сущности
-+ company_id, nonNull - уникальный идентификатор компании
++ id (int64), nonNull Unique - уникальный идентификатор сущности
++ company_id, nonNull Unique - уникальный идентификатор компании
 + description, nonNull - описание товара
 + phone, nonNull - номер телефона для связи
 + price (int), nonNull - цена за еденицу товара
