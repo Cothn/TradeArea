@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -29,38 +30,39 @@ public class CompanyController {
     }
 
     @PostMapping
-    public HttpStatus create(@RequestBody Company company) {
-        companyService.add(company);
-        return HttpStatus.CREATED;
+    @ResponseStatus(HttpStatus.CREATED)
+    public Long create(@RequestBody Company company) {
+        return companyService.add(company);
     }
 
     @GetMapping
     public ResponsePage<Company> read(
-            @RequestParam(defaultValue = "1") int pageNum,
+            @RequestParam(defaultValue = "0") int pageNum,
             @RequestParam(defaultValue = "20") int pageSize,
             @RequestParam(required = true, defaultValue = "created") String sortBy,
             @RequestParam(required = true, defaultValue = "false") Boolean ascending) {
 
-        final Page<Company> companies = companyService.getAll(pageNum - 1, pageSize, sortBy, ascending);
+        final Page<Company> companies = companyService.getAll(pageNum, pageSize, sortBy, ascending);
 
         return new ResponsePage<>(companies);
     }
 
     @GetMapping(value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public Company read(@PathVariable(name = "id") long id) {
         final Company company = companyService.getById(id);
         return company;
     }
 
     @PutMapping
-    public HttpStatus update(@RequestBody Company company) {
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@RequestBody Company company) {
         companyService.edit(company);
-        return HttpStatus.OK;
     }
 
     @DeleteMapping(value = "/{id}")
-    public HttpStatus delete(@PathVariable(name = "id") long id) {
-        companyService.delete(companyService.getById(id));
-        return HttpStatus.OK;
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable(name = "id") long id) {
+        companyService.delete(id);
     }
 }

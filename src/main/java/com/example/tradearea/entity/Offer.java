@@ -42,6 +42,16 @@ public class Offer {
 
     public Offer() { }
 
+    public Offer(Long id, Company company, String description, String phone, Integer price, Integer amount, LocalDateTime updated) {
+        this.id = id;
+        this.company = company;
+        this.description = description;
+        this.phone = phone;
+        this.price = price;
+        this.amount = amount;
+        this.updated = updated;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -84,15 +94,15 @@ public class Offer {
 
     @Override
     public String toString() {
-        return "Audiobook{" +
-                "id=" + id +
-                ", company_id=" + company.getId() +
-                ", phone='" + phone + '\'' +
-                ", price='" + price + '\'' +
-                ", amount='" + amount + '\'' +
-                ", updated='" + updated + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Offer{"
+                + "id=" + id
+                + ", company=" + company
+                + ", phone='" + phone + '\''
+                + ", price='" + price + '\''
+                + ", amount='" + amount + '\''
+                + ", updated='" + updated + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 
 
@@ -135,5 +145,62 @@ public class Offer {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    public static class OfferBuilder {
+        private Long id;
+        private Company company;
+        private String description;
+        private String phone;
+        private Integer price;
+        private Integer amount;
+        private LocalDateTime updated;
+
+
+        OfferBuilder() {
+        }
+
+
+        public OfferBuilder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public OfferBuilder setCompany(Company company) {
+            this.company = company;
+            return this;
+        }
+
+        public OfferBuilder setPhone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public OfferBuilder setPrice(Integer price) {
+            this.price = price;
+            return this;
+        }
+
+        public OfferBuilder setAmount(Integer amount) {
+            this.amount = amount;
+            return this;
+        }
+
+        public OfferBuilder setUpdated(LocalDateTime updated) {
+            this.updated = updated;
+            return this;
+        }
+
+        public OfferBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Offer build() {
+            return new Offer(id, company, description, phone, price, amount, updated);
+        }
+    }
+    public static Offer.OfferBuilder builder() {
+        return new Offer.OfferBuilder();
     }
 }

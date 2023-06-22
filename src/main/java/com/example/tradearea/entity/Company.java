@@ -38,6 +38,15 @@ public class Company {
 
     }
 
+    Company(Long id, String name, String unp, String email, LocalDateTime created, String description) {
+        this.id = id;
+        this.name = name;
+        this.unp = unp;
+        this.email = email;
+        this.created = created;
+        this.description = description;
+    }
+
     public String getName() {
         return name;
     }
@@ -108,14 +117,14 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Audiobook{" +
-                "id=" + id +
-                ", name=" + name +
-                ", unp='" + unp + '\'' +
-                ", email='" + email + '\'' +
-                ", created='" + created + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Company{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", unp='" + unp + '\''
+                + ", email='" + email + '\''
+                + ", created='" + created + '\''
+                + ", description='" + description + '\''
+                + '}';
     }
 
     public String getUnp() {
@@ -124,5 +133,55 @@ public class Company {
 
     public void setUnp(String unp) {
         this.unp = unp;
+    }
+
+    public static class CompanyBuilder {
+        private Long id;
+        private String name;
+        private String unp;
+        private String email;
+        private LocalDateTime created;
+        private String description;
+
+        CompanyBuilder() {
+        }
+
+
+        public CompanyBuilder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public CompanyBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public CompanyBuilder setUnp(String unp) {
+            this.unp = unp;
+            return this;
+        }
+
+        public CompanyBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public CompanyBuilder setCreated(LocalDateTime created) {
+            this.created = created;
+            return this;
+        }
+
+        public CompanyBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Company build() {
+            return new Company(id, name, unp, email, created, description);
+        }
+    }
+    public static CompanyBuilder builder() {
+        return new CompanyBuilder();
     }
 }
