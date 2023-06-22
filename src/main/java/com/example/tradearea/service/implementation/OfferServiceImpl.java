@@ -37,7 +37,7 @@ public class OfferServiceImpl implements OfferService {
         }
         try{
             Page<Offer> offer = offerRepository.findAll(page);
-            if (!offer.isEmpty()){
+            if (!offer.getContent().isEmpty()){
                 return offer;
             }
             throw new DBException(OperationType.READE_PAGE, page.toString());
@@ -71,17 +71,25 @@ public class OfferServiceImpl implements OfferService {
     public void edit(Offer offer) {
         try{
             offer.setUpdated(LocalDateTime.now());
-            offerRepository.save(offer);
+            if (this.getById(offer.getId()) != null)
+                offerRepository.save(offer);
+        }catch (DBException e) {
+            throw e;
         }catch (RuntimeException e){
             throw new DBException(OperationType.UPDATE, offer.toString(), e);
         }
     }
 
     @Override
-    public void add(Offer offer) {
+    @Transactional
+    public long add(Offer offer) {
         try {
+            if (offer.getId() != null)
+                throw new DBException(OperationType.CREATE, offer.toString());
             offer.setUpdated(LocalDateTime.now());
-            offerRepository.save(offer);
+            return offerRepository.save(offer).getId();
+        }catch (DBException e) {
+            throw e;
         }catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, offer.toString(), e);
         }
@@ -92,6 +100,8 @@ public class OfferServiceImpl implements OfferService {
     public void delete(Long id) {
         try{
             offerRepository.delete(getById(id));
+        }catch (DBException e) {
+            throw e;
         }catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }

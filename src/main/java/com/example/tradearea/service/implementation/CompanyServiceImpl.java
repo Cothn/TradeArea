@@ -37,9 +37,9 @@ public class CompanyServiceImpl implements CompanyService {
             page = PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
         }
         try{
-            Page<Company> company = companyRepository.findAll(page);
-            if (!company.isEmpty()){
-                return company;
+            Page<Company> companies = companyRepository.findAll(page);
+            if (!companies.getContent().isEmpty()){
+                return companies;
             }
             throw new DBException(OperationType.READE_PAGE, page.toString());
         }catch (DBException e) {
@@ -71,17 +71,25 @@ public class CompanyServiceImpl implements CompanyService {
     @Transactional
     public void edit(Company company) {
         try{
-            companyRepository.save(company);
-        }catch (RuntimeException e){
+            if (this.getById(company.getId()) != null)
+                companyRepository.save(company);
+        }catch (DBException e) {
+            throw e;
+        }catch (RuntimeException e) {
             throw new DBException(OperationType.UPDATE, company.toString(), e);
         }
     }
 
     @Override
-    public void add(Company company) {
+    @Transactional
+    public long add(Company company) {
         try {
+            if (company.getId() != null)
+                throw new DBException(OperationType.CREATE, company.toString());
             company.setCreated(LocalDateTime.now());
-            companyRepository.save(company);
+            return companyRepository.save(company).getId();
+        }catch (DBException e) {
+            throw e;
         }catch (RuntimeException e){
             throw new DBException(OperationType.CREATE, company.toString(), e);
         }
@@ -92,6 +100,8 @@ public class CompanyServiceImpl implements CompanyService {
     public void delete(Long id) {
         try{
             companyRepository.delete(getById(id));
+        }catch (DBException e) {
+            throw e;
         }catch (RuntimeException e){
             throw new DBException(OperationType.DELETE, "id = "+id, e);
         }

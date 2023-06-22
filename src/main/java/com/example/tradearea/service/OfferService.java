@@ -12,7 +12,7 @@ public interface OfferService {
 
     void edit(Offer offer);
 
-    void add(Offer offer);
+    long add(Offer offer);
 
     void delete(Long id);
 
