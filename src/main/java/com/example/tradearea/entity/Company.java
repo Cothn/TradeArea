@@ -119,7 +119,7 @@ public class Company {
     public String toString() {
         return "Company{" +
                 "id=" + id +
-                ", name=" + name +
+                ", name='" + name + '\'' +
                 ", unp='" + unp + '\'' +
                 ", email='" + email + '\'' +
                 ", created='" + created + '\'' +
